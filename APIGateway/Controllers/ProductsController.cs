@@ -24,22 +24,28 @@ namespace APIGateway.Controllers
         [HttpPut]
         public IActionResult Upsert(Product product)
         {
-            if(product.Id == 0)
+            if (product == null)
+                return BadRequest();
+
+            if (product.Id == 0)
             {
-                productServices.Insert(product);
+                var newProduct = productServices.Insert(product);
+                return Ok(newProduct);  
             }
             else
             {
-                productServices.Update(product);
+                var productUpdated = productServices.Update(product);
+                return Ok(productUpdated);
             }
-            return Ok(product);
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
+            if (id == 0)
+                return NotFound();
             productServices.Delete(id);
-            return Ok();
+            return NoContent();
         }
     }
 }

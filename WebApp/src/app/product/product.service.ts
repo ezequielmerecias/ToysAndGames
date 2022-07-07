@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, JsonpClientBackend } from "@angular/common/http"
+import { ErrorHandler, Injectable } from "@angular/core";
+import { HttpClient, HttpErrorResponse, JsonpClientBackend } from "@angular/common/http"
 import { Observable, map, takeUntil, of, Subscription} from "rxjs";
 import { throwError, catchError, tap } from "rxjs"
 import { Product } from "./models/product.interface";
@@ -19,11 +19,14 @@ export class ProductService{
     update(product: Product) : Observable<Product>{
         const headers = { 'content-type': 'application/json'}  
         const body=JSON.stringify(product);
-        return this.http.put<Product>(API, body, {'headers':headers});
+        return this.http.put<Product>(API, body, {'headers':headers}).pipe(map(data => {return data;}), catchError((error) => {
+            console.log(error);
+            return throwError(error);
+        }));
     }
 
     delete(id: number){
-        return this.http.delete(`${API}?id=${id}`).subscribe(() => this.status = 'Delete successful');
+        return this.http.delete(`${API}?id=${id}`).subscribe();
     }
 }
 

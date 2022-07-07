@@ -4,5 +4,6 @@ export interface Product {
   description: string,
   ageRestriction: number,
   company: string,
-  price: number
+  price: number,
+  imageBase64: string
 }
