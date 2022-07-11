@@ -4,10 +4,14 @@ import { HttpClientModule } from "@angular/common/http"
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatDividerModule} from '@angular/material/divider';
+import { RouterModule, Routes } from "@angular/router";
 
 //Container
 import { ProductMainComponent } from "./components/product-main.component"
 import { ProductAddDialog } from "./components/product-add.component"
+import { ConfirmationDialog } from "./components/confirmation.component";
 
 //Components
 // import { ProductAddComponent } from "./components/product-add.component"
@@ -18,10 +22,25 @@ import {MatCardModule} from '@angular/material/card';
 //Service
 import { ProductService } from "./product.service"
 
+const routes : Routes = [
+  {
+      path: 'products',
+      children: [
+          {
+              path: '', component: ProductMainComponent
+          },
+          {
+              path: ':id', component: ProductAddDialog
+          }
+      ]
+  }
+];
+
 @NgModule({
   declarations: [
     ProductMainComponent,
-    ProductAddDialog
+    ProductAddDialog,
+    ConfirmationDialog
   ],
   imports: [
     CommonModule,
@@ -31,7 +50,10 @@ import { ProductService } from "./product.service"
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatFormFieldModule,
+    MatDividerModule,
+    RouterModule.forChild(routes)
   ],
   exports: [
     ProductMainComponent

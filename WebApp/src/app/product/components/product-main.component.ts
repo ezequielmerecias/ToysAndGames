@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../models/product.interface';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from "@angular/router";
 
 import { ProductAddDialog } from './product-add.component';
 import { ConfirmationDialog } from './confirmation.component';
@@ -42,6 +43,7 @@ import { ConfirmationDialog } from './confirmation.component';
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <button mat-raised-button (click)="updateEvent(element)" color="primary">Update</button>
+          <button mat-raised-button (click)="handleView(element)" color="primary">See</button>
           <button mat-raised-button (click)="deleteEvent(element.id)" color="warn">Delete</button>
         </td>
       </ng-container>
@@ -55,7 +57,7 @@ export class ProductMainComponent implements OnInit {
   // animal: string;
   // name: string;
   displayedColumns = ['id', 'name', 'age', 'price', 'company', 'options'];
-  constructor(
+  constructor(   private router: Router,
     private productService: ProductService,
     public dialog: MatDialog
   ) {}
@@ -68,7 +70,7 @@ export class ProductMainComponent implements OnInit {
 
   updateEvent(product: Product): void {
     const dialogRef = this.dialog.open(ProductAddDialog, {
-      width: '250px',
+      width: '400px',
       data: product,
     });
 
@@ -86,7 +88,7 @@ export class ProductMainComponent implements OnInit {
 
   newEvent(): void {
     const dialogRef = this.dialog.open(ProductAddDialog, {
-      width: '250px',
+      width: '400px',
       data: {},
     });
 
@@ -112,4 +114,8 @@ export class ProductMainComponent implements OnInit {
       }
     });
   }
+
+  handleView(event: Product){
+    this.router.navigate(['/products', event.id]);
+}
 }
