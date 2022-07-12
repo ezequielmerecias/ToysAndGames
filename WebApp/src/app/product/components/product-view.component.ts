@@ -5,6 +5,8 @@ import { Product } from '../models/product.interface';
 import { ProductService } from '../product.service';
 import { Router, ActivatedRoute,  ParamMap } from "@angular/router";
 
+import { convertToBase64 } from '../methods/methods';
+
 @Component({
   selector: 'product-view-dialog',
   styleUrls: ['../../app.component.css'],
@@ -105,26 +107,21 @@ import { Router, ActivatedRoute,  ParamMap } from "@angular/router";
           >
             Save
           </button>
-          <button mat-raised-button type="button" (click)="cancelEvent()">
-            Cancel
+          <button mat-raised-button type="button" (click)="goBack()">
+            Back
           </button>
         </div>
       </form>
     </mat-card>
   `,
 })
-export class ProductAddDialog implements OnInit {
+export class ProductView implements OnInit {
   product: Product;
 
   constructor( private router: Router,
     private route: ActivatedRoute,
     private productService: ProductService
-    // ,
-    // public dialogRef: MatDialogRef<ProductAddDialog>,
-    // @Inject(MAT_DIALOG_DATA) public data: Product
-  ) {
-    // this.product = data;
-  }
+  ) {}
 
   ngOnInit() {
      this.route.params.subscribe(params => {
@@ -140,7 +137,7 @@ export class ProductAddDialog implements OnInit {
 
     const file: File = (target.files as FileList)[0];
 
-    this.convertToBase64(productForm, file);
+    convertToBase64(this.product, productForm, file);
   }
 
   submitEvent(productForm: Product, isValid: any): void {
@@ -151,37 +148,36 @@ export class ProductAddDialog implements OnInit {
       var newProduct: Product = productForm;
       this.productService.update(productForm).subscribe((data: Product) => {
         newProduct = data;
-        // this.dialogRef.close(newProduct);
       });
     }
   }
 
-  cancelEvent(): void {
-    // this.dialogRef.close(null);
+  goBack(): void {
+    this.router.navigate(['/products']);
   }
 
-  convertToBase64(productForm: Product, file: File){
-    const observable = new Observable((subscriber : Subscriber<any>)=>{
-       this.readFile(file, subscriber);
-    })
+  // convertToBase64(productForm: Product, file: File){
+  //   const observable = new Observable((subscriber : Subscriber<any>)=>{
+  //      this.readFile(file, subscriber);
+  //   })
 
-    observable.subscribe((data) => {
-      productForm.imageBase64 = data;
-      this.product.imageBase64 = data;
-    });
-  }
+  //   observable.subscribe((data) => {
+  //     productForm.imageBase64 = data;
+  //     this.product.imageBase64 = data;
+  //   });
+  // }
 
-  readFile(file: File, subscriber: Subscriber<any>){
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      subscriber.next(fileReader.result);
-      subscriber.complete();
-    }
+  // readFile(file: File, subscriber: Subscriber<any>){
+  //   const fileReader = new FileReader();
+  //   fileReader.readAsDataURL(file);
+  //   fileReader.onload = () => {
+  //     subscriber.next(fileReader.result);
+  //     subscriber.complete();
+  //   }
 
-    fileReader.onerror = () => {
-      subscriber.error();
-      subscriber.complete();
-    }
-  }
+  //   fileReader.onerror = () => {
+  //     subscriber.error();
+  //     subscriber.complete();
+  //   }
+  // }
 }

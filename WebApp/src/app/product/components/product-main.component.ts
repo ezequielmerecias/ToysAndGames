@@ -4,8 +4,9 @@ import { Product } from '../models/product.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from "@angular/router";
 
-import { ProductAddDialog } from './product-view.component';
+
 import { ConfirmationDialog } from './confirmation.component';
+import { ProductAddDialog } from './product-add.component';
 
 @Component({
   selector: 'product-main',
@@ -68,23 +69,23 @@ export class ProductMainComponent implements OnInit {
     });
   }
 
-  updateEvent(product: Product): void {
-    const dialogRef = this.dialog.open(ProductAddDialog, {
-      width: '400px',
-      data: product,
-    });
+  // updateEvent(product: Product): void {
+  //   const dialogRef = this.dialog.open(ProductView, {
+  //     width: '400px',
+  //     data: product,
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result != null) {
-        this.products = this.products.map((product: Product) => {
-          if (product.id === result.id) {
-            product = Object.assign({}, product, result);
-          }
-          return product;
-        });
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result != null) {
+  //       this.products = this.products.map((product: Product) => {
+  //         if (product.id === result.id) {
+  //           product = Object.assign({}, product, result);
+  //         }
+  //         return product;
+  //       });
+  //     }
+  //   });
+  // }
 
   newEvent(): void {
     const dialogRef = this.dialog.open(ProductAddDialog, {

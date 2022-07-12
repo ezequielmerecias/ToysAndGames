@@ -10,7 +10,8 @@ import { RouterModule, Routes } from "@angular/router";
 
 //Container
 import { ProductMainComponent } from "./components/product-main.component"
-import { ProductAddDialog } from "./components/product-view.component"
+import { ProductView } from "./components/product-view.component"
+import { ProductAddDialog } from "./components/product-add.component"
 import { ConfirmationDialog } from "./components/confirmation.component";
 
 //Components
@@ -30,7 +31,7 @@ const routes : Routes = [
               path: '', component: ProductMainComponent
           },
           {
-              path: ':id', component: ProductAddDialog
+              path: ':id', component: ProductView
           }
       ]
   }
@@ -39,6 +40,7 @@ const routes : Routes = [
 @NgModule({
   declarations: [
     ProductMainComponent,
+    ProductView,
     ProductAddDialog,
     ConfirmationDialog
   ],
