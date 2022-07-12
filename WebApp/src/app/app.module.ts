@@ -21,7 +21,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +32,10 @@ const routes: Routes = [
     MatDialogModule,
     FormsModule,
     RouterModule.forRoot(routes, {useHash: true}),
+    
+  ],
+  exports:[
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

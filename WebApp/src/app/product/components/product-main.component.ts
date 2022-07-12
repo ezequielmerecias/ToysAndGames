@@ -4,7 +4,7 @@ import { Product } from '../models/product.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from "@angular/router";
 
-import { ProductAddDialog } from './product-add.component';
+import { ProductAddDialog } from './product-view.component';
 import { ConfirmationDialog } from './confirmation.component';
 
 @Component({
@@ -42,8 +42,8 @@ import { ConfirmationDialog } from './confirmation.component';
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
-          <button mat-raised-button (click)="updateEvent(element)" color="primary">Update</button>
-          <button mat-raised-button (click)="handleView(element)" color="primary">See</button>
+          <!-- <button mat-raised-button (click)="updateEvent(element)" color="primary">Update</button> -->
+          <button mat-raised-button (click)="handleView(element)" color="primary">Update</button>
           <button mat-raised-button (click)="deleteEvent(element.id)" color="warn">Delete</button>
         </td>
       </ng-container>
@@ -63,7 +63,7 @@ export class ProductMainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productService.get().subscribe((data: Product[]) => {
+    this.productService.getAll().subscribe((data: Product[]) => {
       this.products = data;
     });
   }

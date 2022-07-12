@@ -12,8 +12,12 @@ export class ProductService{
     productd: Product;
     constructor(private http: HttpClient){}
 
-    get(): Observable<Product[]>{
+    getAll(): Observable<Product[]>{
         return this.http.get<Product[]>(API);
+    }
+
+    get(id: number): Observable<Product>{
+        return this.http.get<Product>(`${API}/id/${id}`);
     }
 
     update(product: Product) : Observable<Product>{

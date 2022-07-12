@@ -11,9 +11,14 @@ namespace APIGateway.Services
             this.db = db;
         }
 
-        public List<Product> Get()
+        public List<Product> GetAll()
         {
             return db.Products.ToList();
+        }
+
+        public Product Get(int id)
+        {
+            return db.Products.Where(q => q.Id == id).FirstOrDefault();
         }
 
         public Product Insert(Product product)

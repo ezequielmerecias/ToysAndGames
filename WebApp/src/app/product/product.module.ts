@@ -10,7 +10,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 //Container
 import { ProductMainComponent } from "./components/product-main.component"
-import { ProductAddDialog } from "./components/product-add.component"
+import { ProductAddDialog } from "./components/product-view.component"
 import { ConfirmationDialog } from "./components/confirmation.component";
 
 //Components

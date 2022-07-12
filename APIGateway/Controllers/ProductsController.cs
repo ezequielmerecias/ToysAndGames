@@ -17,8 +17,15 @@ namespace APIGateway.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var products = productServices.Get();
+            var products = productServices.GetAll();
             return Ok(products);
+        }
+
+        [HttpGet("id/{id}")]
+        public IActionResult Get([FromRoute]int id)
+        {
+            var product = productServices.Get(id);
+            return Ok(product);
         }
 
         [HttpPut]
