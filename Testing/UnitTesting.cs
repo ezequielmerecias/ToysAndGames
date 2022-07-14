@@ -27,7 +27,7 @@ namespace Testing
         {
             //Arrange
             var mockService = new Mock<IProductServices>();
-            mockService.Setup(s => s.Get())
+            mockService.Setup(s => s.GetAll())
                         .Returns(new List<Product>
                         {
                             new Product()

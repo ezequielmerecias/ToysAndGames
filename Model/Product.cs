@@ -25,6 +25,8 @@ namespace Model
         [Range(1, 1000)]
         public decimal Price { get; set; }
 
+        public string? ImageFileName { get; set; }
+
         public string? ImageBase64 { get; set; }
     }
 }

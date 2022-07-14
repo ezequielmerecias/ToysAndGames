@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, Subscriber } from 'rxjs';
 import { Product } from '../models/product.interface';
@@ -30,16 +30,15 @@ import { convertToBase64 } from '../methods/methods';
         </mat-form-field>
         <div class="form-file">
           Imagen
-          <div *ngIf="product.imageBase64 !== null">
           <input
             type="file"
             accept="image/*"
-            name="imageBase64"
-            #imageBase64="ngModel"
-            [(ngModel)]="product.imageBase64"
-            onchange="onChange(form.value, $event)"
-          /></div>
-          <div *ngIf="product.imageBase64 !== null">
+            name="imageFileName"
+            #imageFileName="ngModel"
+            (ngModel)="product?.imageFileName"
+            (change)="onChange(form.value, $event)"
+          />
+          <div *ngIf="product?.imageFileName !== undefined">
             <img [src]="product.imageBase64" width="200px" height="100px">
           </div>
         </div>
@@ -119,7 +118,7 @@ import { convertToBase64 } from '../methods/methods';
 export class ProductAddDialog {
   product: Product;
 
-  constructor(
+  constructor(private cdr: ChangeDetectorRef,
     private productService: ProductService,
     public dialogRef: MatDialogRef<ProductAddDialog>,
     @Inject(MAT_DIALOG_DATA) public data: Product
@@ -132,14 +131,14 @@ export class ProductAddDialog {
 
     const file: File = (target.files as FileList)[0];
 
+    this.product.imageFileName = productForm.imageFileName;
+
     convertToBase64(this.product, productForm, file);
   }
 
   submitEvent(productForm: Product, isValid: any): void {
     if (isValid) {
-      if (this.product.id != 0) {
-        productForm.id = this.product.id;
-      }
+      productForm.imageBase64 = this.product.imageBase64;
       var newProduct: Product = productForm;
       this.productService.update(productForm).subscribe((data: Product) => {
         newProduct = data;

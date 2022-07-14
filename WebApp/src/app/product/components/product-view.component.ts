@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, Subscriber } from 'rxjs';
 import { Product } from '../models/product.interface';
@@ -33,12 +33,12 @@ import { convertToBase64 } from '../methods/methods';
           <input
             type="file"
             accept="image/*"
-            name="imageBase64"
-            #imageBase64="ngModel"
-            [(ngModel)]="product.imageBase64"
+            name="imageFileName"
+            #imageFileName="ngModel"
+            (ngModel)="product?.imageFileName"
             (change)="onChange(form.value, $event)"
           />
-          <div *ngIf="product.imageBase64 !== null">
+          <div *ngIf="product?.imageFileName">
             <img [src]="product.imageBase64" width="200px" height="100px">
           </div>
         </div>
@@ -118,7 +118,8 @@ import { convertToBase64 } from '../methods/methods';
 export class ProductView implements OnInit {
   product: Product;
 
-  constructor( private router: Router,
+  constructor(private cdr: ChangeDetectorRef,
+     private router: Router,
     private route: ActivatedRoute,
     private productService: ProductService
   ) {}
@@ -137,7 +138,10 @@ export class ProductView implements OnInit {
 
     const file: File = (target.files as FileList)[0];
 
+    this.product.imageFileName = productForm.imageFileName;
+    
     convertToBase64(this.product, productForm, file);
+    this.cdr.detectChanges();
   }
 
   submitEvent(productForm: Product, isValid: any): void {
